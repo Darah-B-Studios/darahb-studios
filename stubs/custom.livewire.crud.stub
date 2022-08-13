@@ -1,0 +1,154 @@
+<?php
+namespace App\Http\Livewire;
+
+use App\Models\{{}};
+use Livewire\Component;
+use Livewire\WithPagination;
+use Illuminate\Validation\Rule;
+
+class {{}} extends Component
+{
+    use WithPagination;
+
+    public $model;
+    public $show_create_modal = false;
+    public $show_delete_modal = false;
+
+     public function rules()
+    {
+        return [
+            'slug' => ['required', Rule::unique('navigation_menus', 'slug')->ignore($this->model)]
+        ];
+    }
+
+     /**
+     * Show the form modal for the navigation_menu create functionality
+     *
+     * @return void
+     */
+    public function showCreateModal()
+    {
+        $this->reset();
+        $this->show_create_modal = true;
+        $this->clearValidation();
+    }
+
+    /**
+     * Show the delete modal
+     *
+     * @param  mixed $model
+     * @return void
+     */
+    public function showDeleteModal({{}} $model)
+    {
+        $this->model = $model;
+        $this->show_delete_modal = true;
+    }
+
+    /**
+     * Base function to return data
+     *
+     * @return void
+     */
+    public function index()
+    {
+        return {{}}::paginate(5);
+    }
+
+    /**
+     * Create new navigation_menu
+     *
+     * @return void
+     */
+    public function create()
+    {
+        $this->validate();
+        {{}}::create($this->modelData());
+        $this->show_create_modal = false;
+        $this->reset();
+    }
+
+    /**
+     * Edit provided model
+     *
+     * @param  mixed $navigation_menu
+     * @return void
+     */
+    public function edit({{}} $model)
+    {
+        $this->clearValidation();
+        $this->show_create_modal = true;
+        $this->loadData($model);
+        $this->model = $model;
+    }
+
+    /**
+     * Update provided model
+     *
+     * @param  mixed $model
+     * @return void
+     */
+    public function update({{}} $model)
+    {
+        $this->model = $model;
+        $this->show_create_modal = true;
+        $model->update($this->modelData());
+        $this->show_create_modal = false;
+    }
+
+    /**
+     * Delete provided model
+     *
+     * @param  mixed $model
+     * @return void
+     */
+    public function delete({{}} $model)
+    {
+        $this->model = $model;
+        $model->delete();
+        $this->show_delete_modal = false;
+        $this->reset();
+    }
+
+    /**
+     * Load model data when needed
+     *
+     * @param  mixed $model
+     * @return void
+     */
+    public function loadData({{}} $model)
+    {
+        /* load model data here */
+        /**
+        * Example:
+        * $this->name = $model->name;
+        */
+    }
+
+    /**
+     * Set the model data, populate all model fields
+     *
+     * @return void
+     */
+    public function modelData()
+    {
+        return [
+            /**
+            * Example:
+            * 'name' => $this->name;
+            */
+        ];
+    }
+
+    /**
+     * Main renderer function to load livewire component
+     *
+     * @return void
+     */
+    public function render()
+    {
+        return view('livewire.{{}}', [
+            '{{}}' => $this->index(), // replace with camelcase model name
+        ]);
+    }
+}
